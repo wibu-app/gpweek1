@@ -1,11 +1,11 @@
 require('dotenv').config()
-const errHandler = require('./helpers/errorHandler')
+const express = require('express')
 const app = express()
 const port = 3000
-const express = require('express')
 const mongoose = require('mongoose')
 const cors = require('cors')
 const router = require('./routes')
+const errHandler = require('./helpers/errorHandler')
 
 mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true})
 .then(resp => {
