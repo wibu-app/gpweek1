@@ -249,3 +249,65 @@ $(document).ready(function () {
             });
     })
 });
+$(document).ready(function(){
+    $("#submit").click(function(){
+        $.ajax({
+            url: "http://localhost:3000/api/users/register",
+            method: "POST",
+            data : {
+                username: $("#inputusername").val(),
+                email: $('#inputEmail').val(),
+                password: $('#inputPassword').val(),
+            }
+        })
+        .done(function(){
+            
+        })
+    })
+    $('#submitLogin').click(function(){
+        $.ajax({
+            url: "http://localhost:3000/api/users/login",
+            method: "POST",
+            data:{
+                email: $("#InputEmailLogin").val(),
+                password: $("#InputPasswordLogin").val()
+            }
+        })
+        .done(function(usertoken){
+            console.log(usertoken);
+            localStorage.setItem('usertoken', usertoken);
+        })
+        .fail(function(err){
+            console.log(err);
+        })
+    })
+
+  
+
+})
+function onSignIn(googleUser){
+    var id_token = googleUser.getAuthResponse().id_token
+    console.log(id_token);
+    
+    $.ajax({
+        url: `http://localhost:3000/api/users/tokensignin`,
+        method: "POST",
+        data: {
+            id_token : id_token
+        },
+        success: function(data){
+            console.log(data);
+            
+        },
+        error: function(err){
+            console.log(err);  
+        }
+    })  
+}
+
+function signOut(){
+    var auth2 = gapi.auth2.getAuthInstance();
+    auth2.signOut().then(function () {
+      console.log('User signed out.');
+    });
+}
