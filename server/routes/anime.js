@@ -8,5 +8,6 @@ router.get('/', anime.fetch)
 router.get('/search/:name', anime.search)
 router.get('/genre/:genre', anime.searchgenre)
 router.get('/details/:id', anime.findOne)
+router.get('/music/:title',anime.music)
 
 module.exports = router
