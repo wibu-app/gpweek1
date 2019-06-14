@@ -1,11 +1,11 @@
 require('dotenv').config()
-const express = require('express')
-const mongoose = require('mongoose')
-const router = require('./routes')
-const cors = require('cors')
 const errHandler = require('./helpers/errorHandler')
 const app = express()
 const port = 3000
+const express = require('express')
+const mongoose = require('mongoose')
+const cors = require('cors')
+const router = require('./routes')
 
 mongoose.connect(process.env.MONGODB_URL, {useNewUrlParser: true})
 .then(resp => {
@@ -22,6 +22,8 @@ app.use(cors())
 app.use('/', router)
 app.use(errHandler)
 
-app.listen(port, function(){
-    console.log('Running on port', port);
+
+app.listen(port,()=>{
+    console.log('listening in port 3000');
+    
 })
