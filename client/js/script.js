@@ -42,6 +42,8 @@ function animeTrending() {
             // }
         })
         .done(resp => {
+            $('#mainhome').show()
+            $('#detail').hide()
             $('#animelist').empty()
             for (let i = 0; i < resp.anime.length; i++) {
                 $('#animelist').append(`
@@ -136,11 +138,45 @@ $(document).ready(function () {
         // $('#loginform').hide()
     }
 
+    $('#search').submit(function(){
+        event.preventDefault()
+        let search = $('#searchval').val()
+        $.ajax({
+            method: "GET",
+            url: `${baseUrl}/animes/search/${search}`,
+            // headers:{
+            //     token : localStorage.getItem('token')
+            // },
+        })
+        .done(resp => {
+            $('#searchval').val('')
+            console.log(resp, '====')
+            $('#animelist').empty()
+                for (let i = 0; i < resp.data.length; i++) {
+                    $('#animelist').append(`
+                <div class="card" style="width: 15rem;margin-bottom:10px; margin-right:10px" onclick="details('${resp.data[i].id}')">
+                <img src="${resp.data[i].attributes.posterImage.large}" class="card-img-top" alt="..." style="height:200px">
+                <div class="card-body">
+                <h5 class="card-title">${resp.data[i].attributes.canonicalTitle}</h5>
+                    <p class="card-text">Rating: ${resp.data[i].attributes.averageRating}</p>
+                    <p class="card-text">Status: ${resp.data[i].attributes.status}</p>
+                </div>
+                </div>
+                `)
+                }
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "../assets/shock.gif",
+                title: "Internal Server Error"
+            })
+        })
+    })
+
     $('#nb').click(function(){
         event.preventDefault()
         console.log('tes')
-        $('#mainhome').show()
-        $('#detail').hide()
         animeTrending()
     })
 
