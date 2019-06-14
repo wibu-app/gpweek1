@@ -9,6 +9,7 @@ function animeTrending() {
             // }
         })
         .done(resp => {
+            $('#animelist').empty()
             for (let i = 0; i < resp.anime.length; i++) {
                 $('#animelist').append(`
             <div class="card" style="width: 15rem;margin-bottom:10px; margin-right:10px" onclick="details('${resp.anime[i].id}')">
@@ -40,6 +41,9 @@ function details(input) {
             // },
         })
         .done(resp => {
+            $('#detail').empty()
+            $('#mainhome').hide()
+            $('#detail').show()
             console.log(resp)
             $('#detail').append(`
                 <div class="d-flex justify-content-center" id="judul">
@@ -50,13 +54,15 @@ function details(input) {
                 </div>
                 <div id="detail" style="margin-top:20px">
                 <div class="card w-50">
-                <div class="card-header">
-                    
-                </div>
                 <div class="card-body">
-                    <h5 class="card-title">Special title treatment</h5>
-                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
-                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                    <h5 class="card-title"><b>Synopsys</b></h5>
+                    <p class="card-text">${resp.data.attributes.synopsis}</p>
+                    <h5 class="card-title"><b>Details</b></h5>
+                    <p class="card-text">Rating: <b>${resp.data.attributes.averageRating}</b></p>
+                    <p class="card-text">Episode: ${resp.data.attributes.episodeLength}</p>
+                    <p class="card-text">Next Release: ${resp.data.attributes.nextRelease}</p>
+                    <p class="card-text">Show Type: ${resp.data.attributes.showType}</p>
+                    <p class="card-text">Status: ${resp.data.attributes.status}</p>
                 </div>
                 </div>
                 </div>
@@ -89,14 +95,21 @@ $(document).ready(function () {
         $('#loginform').hide()
         $('#clickhere').hide()
     } else {
-        details(12)
         animeTrending()
         $('#home').hide()
-        $('#mainhome').hide()
+        // $('#mainhome').hide()
         // $('#navbar').hide()
         // $('#regisform').hide()
         // $('#loginform').hide()
     }
+
+    $('#nb').click(function(){
+        event.preventDefault()
+        console.log('tes')
+        $('#mainhome').show()
+        $('#detail').hide()
+        animeTrending()
+    })
 
     $('#regisbtn').click(function () {
         event.preventDefault()
