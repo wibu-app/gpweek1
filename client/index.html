@@ -138,6 +138,113 @@
     <script src="./js/script.js"></script>
     <script src="https://apis.google.com/js/client.js?onload=init"></script>
     
+    <nav class="navbar-dark bg-dark" id='navbar'>
+        <a href="#" class="navbar-brand" id="nb">Wibu World</a>
+        <a href="#" class="navbar-brand" id="fav">Favorites</a>
+        <a href="#" class="navbar-brand" id="logoutbtn">logout</a>
+    </nav>
+    <div id="home">
+        <div id="clickhere">
+            <a href="#" style="font-size: 80px; padding-top: 200px; color: white" class="d-flex justify-content-center">
+                <b>Click Here</b>
+            </a>
+        </div>
+        <!-- register -->
+        <div class="d-flex justify-content-center">
+            <form id="regisform">
+                <h2>Register</h2>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">User Name</label>
+                    <input type="text" class="form-control" id="regisuser" placeholder="Enter User Name">
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="regisemail" aria-describedby="emailHelp"
+                        placeholder="Enter Email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="regispassword" placeholder="Enter Password">
+                </div>
+                <button type="submit" class="btn btn-dark" id="regisbtn">Register</button>
+                <button type="submit" class="btn btn-light" id="formcancelregis">Cancel</button>
+                <div class="form-group" style="margin-top:10px">
+                    Or
+                    <a href="" id='toLogin'>Login</a>
+                    if you already have account
+                </div>
+            </form>
+        </div>
+        <!-- login -->
+        <div class="d-flex justify-content-center">
+            <form id="loginform">
+                <h2>Login</h2>
+                <div class="form-group">
+                    <label for="exampleInputEmail1">Email</label>
+                    <input type="email" class="form-control" id="loginemail" aria-describedby="emailHelp"
+                        placeholder="Enter email">
+                    <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                        else.</small>
+                </div>
+                <div class="form-group">
+                    <label for="exampleInputPassword1">Password</label>
+                    <input type="password" class="form-control" id="loginpassword" placeholder="Password">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-dark" id="loginbtn">Login</button>
+                    <button type="submit" class="btn btn-light" id="formcancellogin">Cancel</button>
+                </div>
+                <div class="g-signin2 form-group" data-onsuccess="onSignIn"></div>
+                <div class="form-group" style="margin-top:10px">
+                    Or
+                    <a href="" id='toRegis'>Register</a>
+                    if you don't have any account
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="container-fluid">
+        <div id="mainhome">
+            <div class="row">
+
+            </div>
+            <div style="margin-top: 50px;" class="d-flex justify-content-center row">
+                <form action="" id="search">
+                    <input type="search" name="" id="searchval" class="form-control-lg" placeholder="Search Anime">
+                    <input type="submit" value="Search" class="btn btn-dark">
+                </form>
+            </div>
+            <br>
+            <div class="d-flex justify-content-center row">
+                    <h1 style="color: white"><b>Genre</b></h1>
+            </div>
+            <div class="d-flex justify-content-center row">
+                    <button style="margin-right:20px;" type="button" class="btn btn-primary">Primary</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-secondary">Secondary</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-success">Success</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-danger">Danger</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-warning">Warning</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-info">Info</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-light">Light</button>
+                    <button style="margin-right:20px;" type="button" class="btn btn-dark">Dark</button>
+            </div>
+            <div class="d-flex justify-content-center row" id=:animelist>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script src="https://code.jquery.com/jquery-3.4.1.js"
+        integrity="sha256-WpOohJOqMqqyKL9FccASB9O0KwACQJpFTUBLTYOVvVU=" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+        integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous">
+    </script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+        integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous">
+    </script>
+    <script src="./js/script.js"></script>
 </body>
 
 </html>
