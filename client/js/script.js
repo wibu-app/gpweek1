@@ -131,7 +131,7 @@ function onSignIn(googleUser){
         success: function(data){
             animeTrending()
             console.log(data,'===');
-            localStorage.setItem('token', data.accesToken)
+            localStorage.setItem('token', data.accessToken)
             swal({
                 icon: "../assets/ohyeah.gif",
                 title: "Success Login!"
