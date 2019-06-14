@@ -106,8 +106,9 @@ function details(input) {
             <div id="youtube" style="margin-left:40px">
             </div>
             <div id="musicc">
+            <div style="margin-left:40px">
             <b style="font-size: 50px;color:white">Track</b>
-
+            </div>
             </div>
             </div>
             `)
@@ -136,12 +137,14 @@ function music(title){
     })
     .done(resp => {
         console.log(resp,'========');
-        for(let i=0; i<resp.length; i++){
+        for(let i=0; i<5; i++){
             $('#musicc').append(`
-                <div class="card">
-                      <label for="">${resp[i].title}</label>
-                      <embed type=”application/x-shockwave-flash” src=”http://www.google.com/reader/ui/3523697345-audio-player.swf” flashvars=”audioUrl=${resp[i].preview}” width=”400″ height=”27″ quality=”best”></embed>
-                  </div>
+            <div style="margin-left:40px">
+            <b style="font-size: 20px;color:white">${resp[i].title}</b>
+            </div>
+            <div style="margin-left:40px">
+            <audio src="${resp[i].preview}" controls></audio>
+            </div>
             `)
         }
     })
@@ -193,6 +196,7 @@ function onSignIn(googleUser){
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
 
+    $('#mainhome').hide()
     $('#logoutbtn').hide()
     $('#clickhere').show()
 
