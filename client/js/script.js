@@ -1,9 +1,3 @@
-function init() {
-    gapi.client.setApiKey("AIzaSyDEB5MO40mLI3TZatfYjs7Ftf8OKudqQCI");
-    gapi.client.load("youtube", "v3", function() {
-        // yt api is ready
-    });
-}
 let baseUrl = 'http://localhost:3000'
 
 function genre(genre){
@@ -108,10 +102,18 @@ function details(input) {
             </div>
             </div>
             </div>
-            <div class="col" id="musicc">
-            <label for="">Music</label>
+            <div class="col">
+            <div id="youtube" style="margin-left:40px">
+            </div>
+            <div id="musicc">
+            <div style="margin-left:40px">
+            <b style="font-size: 50px;color:white">Track</b>
+            </div>
+            </div>
             </div>
             `)
+
+            youtube(resp.data.attributes.canonicalTitle + ' Trailer')
             music(resp.data.attributes.canonicalTitle)
         })
         .fail((jqXHR, textStatus) => {
@@ -135,12 +137,14 @@ function music(title){
     })
     .done(resp => {
         console.log(resp,'========');
-        for(let i=0; i<resp.length; i++){
+        for(let i=0; i<5; i++){
             $('#musicc').append(`
-                <div class="card">
-                      <label for="">${resp[i].title}</label>
-                      <embed type=”application/x-shockwave-flash” src=”http://www.google.com/reader/ui/3523697345-audio-player.swf” flashvars=”audioUrl=${resp[i].title}” width=”400″ height=”27″ quality=”best”></embed>
-                  </div>
+            <div style="margin-left:40px">
+            <b style="font-size: 20px;color:white">${resp[i].title}</b>
+            </div>
+            <div style="margin-left:40px">
+            <audio src="${resp[i].preview}" controls></audio>
+            </div>
             `)
         }
     })
@@ -192,6 +196,7 @@ function onSignIn(googleUser){
 function signOut() {
     var auth2 = gapi.auth2.getAuthInstance();
 
+    $('#mainhome').hide()
     $('#logoutbtn').hide()
     $('#clickhere').show()
 
@@ -420,53 +425,26 @@ $(document).ready(function () {
             });
     })
 });
-function tplawesome(e,t) {
-    res=e;
-    for (var n=0;n<t.length;n++) {
-        res=res.replace(/\{\{(.*?)\}\}/g, 
-        function(e,r){
-            return t[n][r]})
-        }
-        return res
-    }
-    
-    $(function() {
-        $("form").on("submit", function(e) { 
-            e.preventDefault();
-            console.log($('#keywords').val())
-            // prepare the request
-            var request = gapi.client.youtube.search.list({
-                    part: "snippet", 
-                    type: "video",
-                    q: encodeURIComponent($("#keywords").val()).replace(/%20/g, "+"), 
-                    order: "relevance",
-                    maxResults: 3
-            });
- 
-            // execute the request
-            request.execute(function(response) {
-                var results = response.result;
-                $("#results").html("");
-                $.each(results.items, function(index, item) {
-                    $.get("tpl/item.html", function(data) {
-                        $("#results").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
-                    });
-                });
-                resetVideoHeight();
-            });
-        });
 
-        $(window).on("resize", resetVideoHeight);
-
-    });
-
-function resetVideoHeight() {
-    $(".video").css("height", $("#results").width() * 9/16);
-}
-
-function init() {
-    gapi.client.setApiKey("AIzaSyDEB5MO40mLI3TZatfYjs7Ftf8OKudqQCI");
-    gapi.client.load("youtube", "v3", function() {
-        // yt api is ready
-    });
+function youtube(title){
+    $.ajax({
+        method: "GET",
+        url: `https://www.googleapis.com/youtube/v3/search?part=id&q=${title} trailer&type=video&key=AIzaSyAgufyMDC_DB_DJufzI1ueBKtkMYTH_9C0`,
+        // headers:{
+        //     token : localStorage.getItem('token')
+        // }
+    })
+    .done(resp => {
+        console.log(resp.items[0].id.videoId)
+        $('#youtube').append(`
+            <iframe class="video w100" width="540" height="260" src="//www.youtube.com/embed/${resp.items[0].id.videoId}" frameborder="0" allowfullscreen></iframe>
+        `)
+    })
+    .fail((jqXHR, textStatus) => {
+        console.log(textStatus)
+        swal({
+            icon: "../assets/shock.gif",
+            title: "Internal Server Error"
+        })
+    })
 }
