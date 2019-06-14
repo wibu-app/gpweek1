@@ -1,47 +1,3 @@
-function tplawesome(e,t) {
-    res=e;
-    for (var n=0;n<t.length;n++) {
-        res=res.replace(/\{\{(.*?)\}\}/g, 
-        function(e,r){
-            return t[n][r]})
-        }
-        return res
-    }
-    
-    $(function() {
-        $("form").on("submit", function(e) { 
-            e.preventDefault();
-            console.log($('#keywords').val())
-            // prepare the request
-            var request = gapi.client.youtube.search.list({
-                    part: "snippet", 
-                    type: "video",
-                    q: encodeURIComponent($("#keywords").val()).replace(/%20/g, "+"), 
-                    order: "relevance",
-                    maxResults: 3
-            });
- 
-            // execute the request
-            request.execute(function(response) {
-                var results = response.result;
-                $("#results").html("");
-                $.each(results.items, function(index, item) {
-                    $.get("tpl/item.html", function(data) {
-                        $("#results").append(tplawesome(data, [{"title":item.snippet.title, "videoid":item.id.videoId}]));
-                    });
-                });
-                resetVideoHeight();
-            });
-        });
-
-        $(window).on("resize", resetVideoHeight);
-
-    });
-
-function resetVideoHeight() {
-    $(".video").css("height", $("#results").width() * 9/16);
-}
-
 function init() {
     gapi.client.setApiKey("AIzaSyDEB5MO40mLI3TZatfYjs7Ftf8OKudqQCI");
     gapi.client.load("youtube", "v3", function() {
@@ -175,7 +131,7 @@ function onSignIn(googleUser){
         success: function(data){
             animeTrending()
             console.log(data,'===');
-            localStorage.setItem('token', data.accesToken)
+            localStorage.setItem('token', data.accessToken)
             swal({
                 icon: "../assets/ohyeah.gif",
                 title: "Success Login!"
