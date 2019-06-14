@@ -103,7 +103,7 @@ function details(input) {
             </div>
             </div>
             <div class="col">
-            <div id="youtube">
+            <div id="youtube" style="margin-left:40px">
             </div>
             <div id="musicc">
             <b style="font-size: 50px;color:white">Track</b>
@@ -433,7 +433,7 @@ function youtube(title){
     .done(resp => {
         console.log(resp.items[0].id.videoId)
         $('#youtube').append(`
-            <iframe class="video w100" width="640" height="360" src="//www.youtube.com/embed/${resp.items[0].id.videoId}" frameborder="0" allowfullscreen></iframe>
+            <iframe class="video w100" width="540" height="260" src="//www.youtube.com/embed/${resp.items[0].id.videoId}" frameborder="0" allowfullscreen></iframe>
         `)
     })
     .fail((jqXHR, textStatus) => {
