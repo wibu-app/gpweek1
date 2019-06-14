@@ -229,12 +229,12 @@ $(document).ready(function () {
         let email = $('#regisemail').val()
         let password = $('#regispassword').val()
 
-        if (email != '' && password != '' && userName != '') {
+        if (email != '' && password != '' && username != '') {
             $.ajax({
                     method: "POST",
                     url: `${baseUrl}/users/register`,
                     data: {
-                        userName,
+                        username,
                         email,
                         password
                     }
