@@ -1,23 +1,74 @@
 let baseUrl = 'http://localhost:3000'
 
-function animeTrending(){
+function animeTrending() {
     $.ajax({
-        method: "GET",
-        url: `${baseUrl}/animes`,
-        // headers:{
-        //     token : localStorage.getItem('token')
-        // }
-    })
-    .done(resp => {
-        $('#')
-    })
-    .fail((jqXHR, textStatus) => {
-        console.log(textStatus)
-        swal({
-            icon:"../assets/shock.gif",
-            title: "Internal Server Error"
+            method: "GET",
+            url: `${baseUrl}/animes`,
+            // headers:{
+            //     token : localStorage.getItem('token')
+            // }
         })
-    })
+        .done(resp => {
+            for (let i = 0; i < resp.anime.length; i++) {
+                $('#animelist').append(`
+            <div class="card" style="width: 15rem;margin-bottom:10px; margin-right:10px" onclick="details('${resp.anime[i].id}')">
+            <img src="${resp.anime[i].attributes.coverImage.large}" class="card-img-top" alt="..." style="height:80px">
+            <div class="card-body">
+            <h5 class="card-title">${resp.anime[i].attributes.canonicalTitle}</h5>
+                <p class="card-text">Rating: ${resp.anime[i].attributes.averageRating}</p>
+                <p class="card-text">Status: ${resp.anime[i].attributes.status}</p>
+            </div>
+            </div>
+            `)
+            }
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "../assets/shock.gif",
+                title: "Internal Server Error"
+            })
+        })
+}
+
+function details(input) {
+    $.ajax({
+            method: "GET",
+            url: `${baseUrl}/animes/details/${input}`,
+            // headers:{
+            //     token : localStorage.getItem('token')
+            // },
+        })
+        .done(resp => {
+            console.log(resp)
+            $('#detail').append(`
+                <div class="d-flex justify-content-center" id="judul">
+                <b style="font-size: 80px;color:white">${resp.data.attributes.canonicalTitle}</b>
+                </div>
+                <div class="d-flex justify-content-center" id="gambar">
+                <img src="${resp.data.attributes.coverImage.large}" alt="" style="height: 200px">
+                </div>
+                <div id="detail" style="margin-top:20px">
+                <div class="card w-50">
+                <div class="card-header">
+                    
+                </div>
+                <div class="card-body">
+                    <h5 class="card-title">Special title treatment</h5>
+                    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+                    <a href="#" class="btn btn-primary">Go somewhere</a>
+                </div>
+                </div>
+                </div>
+        `)
+        })
+        .fail((jqXHR, textStatus) => {
+            console.log(textStatus)
+            swal({
+                icon: "../assets/shock.gif",
+                title: "Internal Server Error"
+            })
+        })
 }
 
 function signOut() {
@@ -38,51 +89,53 @@ $(document).ready(function () {
         $('#loginform').hide()
         $('#clickhere').hide()
     } else {
+        details(12)
         animeTrending()
         $('#home').hide()
+        $('#mainhome').hide()
         // $('#navbar').hide()
         // $('#regisform').hide()
         // $('#loginform').hide()
     }
 
-    $('#regisbtn').click(function(){
+    $('#regisbtn').click(function () {
         event.preventDefault()
         let userName = $('#regisuser').val()
         let email = $('#regisemail').val()
         let password = $('#regispassword').val()
-        
-        if (email != '' && password != '' && userName != ''){
+
+        if (email != '' && password != '' && userName != '') {
             $.ajax({
-                method: "POST",
-                url: `${baseUrl}/users/signup`,
-                data: {
-                    userName,
-                    email,
-                    password
-                }
-            })
-            .done(resp => {
-                swal({
-                    icon: "../assets/ohyeah.gif",
-                    title: "Success Register, Please Login"
+                    method: "POST",
+                    url: `${baseUrl}/users/signup`,
+                    data: {
+                        userName,
+                        email,
+                        password
+                    }
                 })
-                $('#regisform').hide()
-                $('#loginform').show()
-                
-                $('#regisuser').val('')
-                $('#regisemail').val('')
-                $('#regispassword').val('')
-                $('#loginemail').val('')
-                $('#loginpassword').val('')
-            })
-            .fail((jqXHR, textStatus) => {
-                console.log(textStatus)
-                swal({
-                    icon:"../assets/shock.gif",
-                    title: "Email Already Used"
+                .done(resp => {
+                    swal({
+                        icon: "../assets/ohyeah.gif",
+                        title: "Success Register, Please Login"
+                    })
+                    $('#regisform').hide()
+                    $('#loginform').show()
+
+                    $('#regisuser').val('')
+                    $('#regisemail').val('')
+                    $('#regispassword').val('')
+                    $('#loginemail').val('')
+                    $('#loginpassword').val('')
                 })
-            })
-        }else{
+                .fail((jqXHR, textStatus) => {
+                    console.log(textStatus)
+                    swal({
+                        icon: "../assets/shock.gif",
+                        title: "Email Already Used"
+                    })
+                })
+        } else {
             swal({
                 icon: "../assets/shock.gif",
                 title: "Email/Password cannot be empty"
@@ -90,44 +143,44 @@ $(document).ready(function () {
         }
     })
 
-    $('#loginbtn').click(function(){
+    $('#loginbtn').click(function () {
         event.preventDefault()
         let email = $('#loginemail').val()
         let password = $('#loginpassword').val()
-        
-        if (email != '' && password != ''){
+
+        if (email != '' && password != '') {
             $.ajax({
-                method: "POST",
-                url: `${baseUrl}/users/signin`,
-                data: {
-                    email,
-                    password
-                }
-            })
-            .done(resp => {
-                swal({
-                    icon: "../assets/ohyeah.gif",
-                    title: "Success Login!"
+                    method: "POST",
+                    url: `${baseUrl}/users/signin`,
+                    data: {
+                        email,
+                        password
+                    }
                 })
-                $('#loginform').hide()
-                $('#navbar').show()
+                .done(resp => {
+                    swal({
+                        icon: "../assets/ohyeah.gif",
+                        title: "Success Login!"
+                    })
+                    $('#loginform').hide()
+                    $('#navbar').show()
 
-                $('#regisuser').val('')
-                $('#regisemail').val('')
-                $('#regispassword').val('')
-                $('#loginemail').val('')
-                $('#loginpassword').val('')
+                    $('#regisuser').val('')
+                    $('#regisemail').val('')
+                    $('#regispassword').val('')
+                    $('#loginemail').val('')
+                    $('#loginpassword').val('')
 
-                localStorage.setItem("token", resp.token)
-            })
-            .fail((jqXHR, textStatus) => {
-                console.log(textStatus)
-                swal({
-                    icon: "../assets/shock.gif",
-                    title: "Email/Password Wrong"
+                    localStorage.setItem("token", resp.token)
                 })
-            })
-        }else{
+                .fail((jqXHR, textStatus) => {
+                    console.log(textStatus)
+                    swal({
+                        icon: "../assets/shock.gif",
+                        title: "Email/Password Wrong"
+                    })
+                })
+        } else {
             swal({
                 icon: "../assets/shock.gif",
                 title: "Email/Password cannot be empty"

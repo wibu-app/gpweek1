@@ -5,7 +5,7 @@ const anime = require('../controllers/anime')
 
 // router.use(authentication)
 router.get('/', anime.fetch)
-router.get('/search', anime.search)
-router.get('/details', anime.findOne)
+router.get('/search/:id', anime.search)
+router.get('/details/:id', anime.findOne)
 
 module.exports = router

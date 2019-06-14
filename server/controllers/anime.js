@@ -6,7 +6,7 @@ let ax = axios.create({
 
 class Controller{
     static search(req, res, next){
-        ax.get(`/anime?filter[text]=${req.body.name}`)
+        ax.get(`/anime?filter[text]=${req.params.name}`)
         .then(({data}) => {
             res.status(200).json(data)
         })
@@ -26,7 +26,7 @@ class Controller{
         .then(data => {
             var haha = []
             for (let i = 0; i < data.length; i++){
-                haha.push(data[0].data.data)
+                haha.push(data[i].data.data)
             }
             res.status(200).json({
                 anime: haha
@@ -35,8 +35,9 @@ class Controller{
         .catch(next)
     }
     static findOne(req, res, next){
-        ax.get(`/anime/${req.body.id}`)
+        ax.get(`/anime/${req.params.id}`)
         .then(({data}) => {
+            console.log(data)
             res.status(200).json(data)
         })
         .catch(next)
