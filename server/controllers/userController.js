@@ -28,7 +28,7 @@ class UserController{
                             id: user._id,
                             email: user.email
                         }
-                        res.json(jwt.sign(obj))
+                        res.json({token: jwt.sign(obj)})
                         
                     } else {
                         res.status(400).json({

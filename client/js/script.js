@@ -42,6 +42,7 @@ function animeTrending() {
             // }
         })
         .done(resp => {
+            console.log('anme')
             $('#mainhome').show()
             $('#detail').hide()
             $('#animelist').empty()
@@ -110,6 +111,7 @@ function details(input) {
                 title: "Internal Server Error"
             })
         })
+    }
 
     function onSignIn(googleUser) {
         var id_token = googleUser.getAuthResponse().id_token
@@ -123,7 +125,21 @@ function details(input) {
             },
             success: function (data) {
                 console.log(data, '===');
+                localStorage.setItem('token', data.accessToken)
+                swal({
+                    icon: "../assets/ohyeah.gif",
+                    title: "Success Login!"
+                })
+                $('#loginform').hide()
+                $('#home').hide()
+                $('#navbar').show()
+                $('#logoutbtn').show()
 
+                $('#regisuser').val('')
+                $('#regisemail').val('')
+                $('#regispassword').val('')
+                $('#loginemail').val('')
+                $('#loginpassword').val('')
             },
             error: function (err) {
                 console.log(err);
@@ -136,6 +152,8 @@ function details(input) {
 
         $('#logoutbtn').hide()
         $('#clickhere').show()
+        $('#home').show()
+        
 
         localStorage.clear()
         auth2.signOut().then(function () {
@@ -148,13 +166,14 @@ function details(input) {
             $('#regisform').hide()
             $('#loginform').hide()
             $('#clickhere').hide()
-        } else {
-            animeTrending()
             $('#home').hide()
-            // $('#mainhome').hide()
-            // $('#navbar').hide()
-            // $('#regisform').hide()
-            // $('#loginform').hide()
+            animeTrending()
+        } else {
+            // $('#home').hide()
+            $('#mainhome').hide()
+            $('#navbar').hide()
+            $('#regisform').hide()
+            $('#loginform').hide()
         }
 
         $('#search').submit(function () {
@@ -259,20 +278,22 @@ function details(input) {
                         }
                     })
                     .done(resp => {
+                        console.log(resp)
+                        localStorage.setItem("token", resp.token)
                         swal({
                             icon: "../assets/ohyeah.gif",
                             title: "Success Login!"
                         })
                         $('#loginform').hide()
+                        $('#home').hide()
                         $('#navbar').show()
+                        $('#logoutbtn').show()
 
                         $('#regisuser').val('')
                         $('#regisemail').val('')
                         $('#regispassword').val('')
                         $('#loginemail').val('')
                         $('#loginpassword').val('')
-
-                        localStorage.setItem("token", resp.token)
                     })
                     .fail((jqXHR, textStatus) => {
                         console.log(textStatus)
@@ -339,7 +360,7 @@ function details(input) {
                 })
                 .then((willDelete) => {
                     if (willDelete) {
-                        // signOut()
+                        signOut()
                         swal({
                             title: "You'r Logout!, We will miss you!",
                             icon: "../assets/ok.png",
@@ -408,4 +429,3 @@ function details(input) {
             // yt api is ready
         });
     }
-}
