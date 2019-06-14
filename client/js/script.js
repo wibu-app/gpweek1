@@ -1,5 +1,38 @@
 let baseUrl = 'http://localhost:3000'
 
+function genre(genre){
+    $.ajax({
+        method: "GET",
+        url: `${baseUrl}/animes/genre/${genre}`,
+        // headers:{
+        //     token : localStorage.getItem('token')
+        // },
+    })
+    .done(resp => {
+        console.log(resp, '====')
+        $('#animelist').empty()
+            for (let i = 0; i < resp.data.length; i++) {
+                $('#animelist').append(`
+            <div class="card" style="width: 15rem;margin-bottom:10px; margin-right:10px" onclick="details('${resp.data[i].id}')">
+            <img src="${resp.data[i].attributes.posterImage.large}" class="card-img-top" alt="..." style="height:200px">
+            <div class="card-body">
+            <h5 class="card-title">${resp.data[i].attributes.canonicalTitle}</h5>
+                <p class="card-text">Rating: ${resp.data[i].attributes.averageRating}</p>
+                <p class="card-text">Status: ${resp.data[i].attributes.status}</p>
+            </div>
+            </div>
+            `)
+            }
+    })
+    .fail((jqXHR, textStatus) => {
+        console.log(textStatus)
+        swal({
+            icon: "../assets/shock.gif",
+            title: "Internal Server Error"
+        })
+    })
+}
+
 function animeTrending() {
     $.ajax({
             method: "GET",
@@ -13,7 +46,7 @@ function animeTrending() {
             for (let i = 0; i < resp.anime.length; i++) {
                 $('#animelist').append(`
             <div class="card" style="width: 15rem;margin-bottom:10px; margin-right:10px" onclick="details('${resp.anime[i].id}')">
-            <img src="${resp.anime[i].attributes.coverImage.large}" class="card-img-top" alt="..." style="height:80px">
+            <img src="${resp.anime[i].attributes.posterImage.large}" class="card-img-top" alt="..." style="height:200px">
             <div class="card-body">
             <h5 class="card-title">${resp.anime[i].attributes.canonicalTitle}</h5>
                 <p class="card-text">Rating: ${resp.anime[i].attributes.averageRating}</p>
@@ -50,7 +83,7 @@ function details(input) {
                 <b style="font-size: 80px;color:white">${resp.data.attributes.canonicalTitle}</b>
                 </div>
                 <div class="d-flex justify-content-center" id="gambar">
-                <img src="${resp.data.attributes.coverImage.large}" alt="" style="height: 200px">
+                <img src="${resp.data.attributes.posterImage.large}" alt="" style="height: 500px">
                 </div>
                 <div id="detail" style="margin-top:20px">
                 <div class="card w-50">

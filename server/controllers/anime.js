@@ -12,6 +12,13 @@ class Controller{
         })
         .catch(next)
     }
+    static searchgenre(req, res, next){
+        ax.get(`/anime?filter[genres]=${req.params.genre}`)
+        .then(({data}) => {
+            res.status(200).json(data)
+        })
+        .catch(next)
+    }
     static fetch(req, res, next){
         ax.get(`/trending/anime`)
         .then(({data}) => {
