@@ -52,6 +52,21 @@ class Controller{
     static getOne(input){
         return ax.get(`/anime/${input.id}`)
     }
+    static music(req,res,next){
+        ax.get(`https://api.deezer.com/search?q=track=${req.params.title}`)
+        .then(({data}) => {
+            let musics = []
+            for(let i=0;i<data.data.length;i++){
+                musics.push({
+                    title: data.data[i].title,
+                    preview: data.data[i].preview
+                })
+            }
+            console.log(musics)
+            res.status(200).json(musics)
+        })
+        .catch(next)
+    }
 }
 
 module.exports = Controller

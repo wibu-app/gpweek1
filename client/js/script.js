@@ -87,27 +87,32 @@ function details(input) {
             $('#detail').show()
             console.log(resp)
             $('#detail').append(`
-                <div class="d-flex justify-content-center" id="judul">
-                <b style="font-size: 80px;color:white">${resp.data.attributes.canonicalTitle}</b>
-                </div>
-                <div class="d-flex justify-content-center" id="gambar">
-                <img src="${resp.data.attributes.posterImage.large}" alt="" style="height: 500px">
-                </div>
-                <div id="detail" style="margin-top:20px">
-                <div class="card w-50">
-                <div class="card-body">
-                    <h5 class="card-title"><b>Synopsys</b></h5>
-                    <p class="card-text">${resp.data.attributes.synopsis}</p>
-                    <h5 class="card-title"><b>Details</b></h5>
-                    <p class="card-text">Rating: <b>${resp.data.attributes.averageRating}</b></p>
-                    <p class="card-text">Episode: ${resp.data.attributes.episodeLength}</p>
-                    <p class="card-text">Next Release: ${resp.data.attributes.nextRelease}</p>
-                    <p class="card-text">Show Type: ${resp.data.attributes.showType}</p>
-                    <p class="card-text">Status: ${resp.data.attributes.status}</p>
-                </div>
-                </div>
-                </div>
-        `)
+            <div class="d-flex justify-content-center" id="judul">
+            <b style="font-size: 80px;color:white">${resp.data.attributes.canonicalTitle}</b>
+            </div>
+            <div class="d-flex justify-content-center" id="gambar">
+            <img src="${resp.data.attributes.posterImage.large}" alt="" style="height: 500px">
+            </div>
+            <div id="detail" style="margin-top:20px" class="row">
+            <div class="col">
+            <div class="card">
+            <div class="card-body">
+            <h5 class="card-title"><b>Synopsys</b></h5>
+            <p class="card-text">${resp.data.attributes.synopsis}</p>
+            <h5 class="card-title"><b>Details</b></h5>
+            <p class="card-text">Rating: <b>${resp.data.attributes.averageRating}</b></p>
+            <p class="card-text">Episode: ${resp.data.attributes.episodeLength}</p>
+            <p class="card-text">Next Release: ${resp.data.attributes.nextRelease}</p>
+            <p class="card-text">Show Type: ${resp.data.attributes.showType}</p>
+            <p class="card-text">Status: ${resp.data.attributes.status}</p>
+            </div>
+            </div>
+            </div>
+            <div class="col" id="musicc">
+            <label for="">Music</label>
+            </div>
+            `)
+            music(resp.data.attributes.canonicalTitle)
         })
         .fail((jqXHR, textStatus) => {
             console.log(textStatus)
@@ -116,6 +121,36 @@ function details(input) {
                 title: "Internal Server Error"
             })
         })
+}
+
+function music(title){
+    let titles = title.split(' ')[0]
+    console.log(titles)
+    $.ajax({
+        method: "GET",
+        url: `${baseUrl}/animes/music/${titles}`,
+        // headers:{
+        //     token : localStorage.getItem('token')
+        // }
+    })
+    .done(resp => {
+        console.log(resp,'========');
+        for(let i=0; i<resp.length; i++){
+            $('#musicc').append(`
+                <div class="card">
+                      <label for="">${resp[i].title}</label>
+                      <embed type=”application/x-shockwave-flash” src=”http://www.google.com/reader/ui/3523697345-audio-player.swf” flashvars=”audioUrl=${resp[i].title}” width=”400″ height=”27″ quality=”best”></embed>
+                  </div>
+            `)
+        }
+    })
+    .fail((jqXHR, textStatus) => {
+        console.log(textStatus)
+        swal({
+            icon: "../assets/shock.gif",
+            title: "Internal Server Error"
+        })
+    })
 }
 
 function onSignIn(googleUser){
